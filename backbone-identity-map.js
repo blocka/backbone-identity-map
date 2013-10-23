@@ -56,6 +56,11 @@
           if (options && options.parse) {
             attributes = object.parse(attributes);
           }
+
+	  if (options && options.collection && options.collection != object.collection) {
+             object.collection = options.collection;
+          }
+
           object.set(attributes);
         }
         return cache[cacheKey];
