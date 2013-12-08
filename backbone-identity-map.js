@@ -38,19 +38,13 @@
       // creates a new object (used if the object isn't found in
       // the cache)
       var create = function() {
-        options = options || {}; // We've already parsed earlier, so we can't do it again
-        options.parse = false;
-
         return new realConstructor(attributes, options);
       };
 
-      // parse now because there might be an identity hidden in there
-      if (options && options.parse) {
-        attributes = realConstructor.prototype.parse(attributes);
-      }
+      var parsedAttributes = options && options.parse ? realConstructor.prototype.parse(_.clone(attributes)) : attributes;
 
-      var objectId = attributes &&
-        attributes[realConstructor.prototype.idAttribute];
+      var objectId = parsedAttributes &&
+        parsedAttributes[realConstructor.prototype.idAttribute];
       // if there is an ID, check if that object exists in the
       // cache already
       if (objectId) {
